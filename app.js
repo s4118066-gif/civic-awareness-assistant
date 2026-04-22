@@ -129,7 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 Based on live data integration:
                 <br><br>
-                🎓 <strong>SSP Post Matric Scholarship:</strong> The deadline has been officially extended to <strong style="color:var(--accent-blue-light)">May 31, 2026</strong> for BCA students. <br>
+                🎓 <strong>SSP Post Matric Scholarship:</strong> The application window is officially open. 
+                <ul>
+                    <li><strong>Start Date:</strong> Jan 1, 2026</li>
+                    <li><strong>End Date:</strong> May 31, 2026</li>
+                </ul>
+                <a href="https://ssp.postmatric.karnataka.gov.in/" target="_blank" style="color: var(--accent-blue-light); text-decoration: underline;">Click here to Apply on the Official Portal</a><br><br>
                 🚀 <strong>Yuva Nidhi:</strong> Providing Rs 3,000/month for unemployed graduates. Since you are 22 and studying BCA, you can apply immediately after your graduation.
             `;
         }
