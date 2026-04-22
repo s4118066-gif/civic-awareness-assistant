@@ -346,3 +346,24 @@ body {
     .top-header { padding: 0 1rem; }
     .header-tools h2 { display: none; }
 }
+
+/* Accessibility Focus States */
+*:focus-visible {
+    outline: 2px solid var(--accent-blue-light);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.4);
+    border-radius: 4px;
+}
+input:focus-visible, button:focus-visible {
+    outline: none; /* Let box-shadow handle it smoothly for inputs */
+}
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
