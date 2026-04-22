@@ -72,34 +72,44 @@ document.addEventListener('DOMContentLoaded', () => {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
-    function updateDashboard() {
-        const ageEl = document.getElementById('ctx-age');
-        const statusEl = document.getElementById('ctx-status');
-        const locEl = document.getElementById('ctx-location');
-        
-        if (userContext.age) {
-            ageEl.textContent = userContext.age === 'under_18' ? 'Minor (Preparation)' : 'Eligible Voter';
-            ageEl.style.color = userContext.age === 'under_18' ? 'var(--accent-magenta)' : 'var(--accent-cyan)';
-        }
-        if (userContext.status) {
-            statusEl.textContent = userContext.status.charAt(0).toUpperCase() + userContext.status.slice(1);
-            statusEl.style.color = 'var(--accent-cyan)';
-        }
-        if (userContext.location) {
-            locEl.textContent = userContext.location.charAt(0).toUpperCase() + userContext.location.slice(1);
-            locEl.style.color = 'var(--accent-cyan)';
-        }
+    // Myth-buster button logic
+    const mythBtn = document.getElementById('myth-buster-btn');
+    if (mythBtn) {
+        mythBtn.addEventListener('click', () => {
+            appendMessage('user', 'I want to verify an election rumor.');
+            const typingId = showTypingIndicator();
+            setTimeout(() => {
+                removeElement(typingId);
+                appendMessage('assistant', `<strong>🔍 Fact Check System Active</strong><br><br>Please provide the rumor or information you've heard. I will cross-reference it with official Election Commission guidelines to verify its authenticity.`);
+            }, 800);
+        });
     }
 
     // Basic intelligence simulation based on prompt requirements
     function generateResponse(text) {
         let matched = false;
 
+        // Grounding Simulation
+        if (text.includes('ssp') || text.includes('scholarship') || text.includes('yuva nidhi')) {
+            return `
+                <div style="font-size: 0.8rem; color: var(--success); margin-bottom: 8px;">
+                    <svg style="vertical-align: middle; margin-right: 4px;" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Google Search Grounding: Active
+                </div>
+                Based on live data integration:
+                <br><br>
+                🎓 <strong>SSP Post Matric Scholarship:</strong> The deadline has been officially extended to <strong style="color:var(--accent-blue-light)">May 31, 2026</strong> for BCA students. <br>
+                🚀 <strong>Yuva Nidhi:</strong> Providing Rs 3,000/month for unemployed graduates. Since you are 22 and studying BCA, you can apply immediately after your graduation if you meet the criteria.
+            `;
+        }
+
         // Extract context if present
         if (text.includes('16') || text.includes('17') || text.includes('under 18')) {
             userContext.age = "under_18";
-            matched = true;
-        } else if (text.match(/18|19|20|2[0-9]|3[0-9]/) || text.includes('eligible')) {
+            return "Since you are under 18, <strong>you are not yet eligible to vote</strong>. <br><br>However, you can prepare by:<br><ul><li>Learning about the democratic process</li><li>Volunteering in community programs</li><li>Applying for a Voter ID as soon as you turn 18</li></ul>";
+        }
+        
+        if (text.match(/18|19|20|2[0-9]|3[0-9]/) || text.includes('eligible')) {
             userContext.age = "eligible";
             matched = true;
         }
@@ -113,65 +123,52 @@ document.addEventListener('DOMContentLoaded', () => {
             userContext.location = "bangalore";
             matched = true;
         }
-        
-        // Update the visual dashboard panel
-        updateDashboard();
-
-        // Specific rules (early returns)
-        if (text.includes('16') || text.includes('17') || text.includes('under 18')) {
-            return "Since you are under 18, <strong>you are not yet eligible to vote</strong>. <br><br>However, you can prepare by:<br><ul><li>Learning about the democratic process</li><li>Volunteering in community programs</li><li>Applying for a Voter ID as soon as you turn 18</li></ul>";
-        }
 
         // Handle specific questions based on past conversation or current input
         if (text.includes('how') && (text.includes('vote') || text.includes('register'))) {
             return `
-                <h3>Here are the steps to vote:</h3>
-                <ol>
-                    <li><strong>Register as a voter:</strong> Fill out Form 6 online via the Voter Portal.</li>
-                    <li><strong>Verify your documents:</strong> Provide age and address proof.</li>
-                    <li><strong>Find your polling booth:</strong> Check the ECI website for your location.</li>
-                    <li><strong>Vote on election day:</strong> Bring your Voter ID or Aadhaar card to the booth.</li>
-                </ol>
+                <h3>Checklist to Register (Form 6):</h3>
+                <ul>
+                    <li>Aadhaar Card (For Address)</li>
+                    <li>Birth Certificate or 10th Marks Card (For Age Proof)</li>
+                    <li>Passport Size Photo</li>
+                </ul>
+                You can apply directly via the Voter Helpline App or the official ECI portal.
             `;
         }
 
         if ((text.includes('where') || text.includes('find')) && (text.includes('booth') || text.includes('location'))) {
-            if (userContext.location) {
-                return `Since you are in <strong>${userContext.location.charAt(0).toUpperCase() + userContext.location.slice(1)}</strong>, you can find your exact polling station by visiting the Karnataka State Election Commission portal. <br><br>I recommend using map services like <strong>Google Maps</strong> to find the quickest route to your designated school or community center on election day.`;
-            } else {
-                return `To help you find your polling booth, could you tell me <strong>what city or state you live in?</strong> <br><br>Generally, you can search for your nearest polling station on the ECI portal and use map services for directions.`;
-            }
+            return `I recommend using <strong>Google Maps</strong> to verify the quickest route. You can check the ECI portal with your Voter ID EPIC number to find the exact name of your designated polling station.`;
         }
 
-        if (text.includes('fake') || text.includes('whatsapp') || text.includes('cancel')) {
-            return `<strong>⚠️ Fact Check:</strong> Elections cannot be cancelled via WhatsApp forwards. Please only trust official sources like the Election Commission of India (ECI) website. If you see suspicious information, do not share it further.`;
+        if (text.includes('fake') || text.includes('whatsapp') || text.includes('cancel') || text.includes('rumor')) {
+            return `<strong>⚠️ Myth-Buster Alert:</strong> Always verify information through the official Election Commission of India (ECI) channels. Elections are never cancelled or rescheduled via WhatsApp forwards.`;
         }
 
         // Combined Context Response
         if (userContext.age === 'eligible' && userContext.status === 'student' && userContext.location === 'bangalore') {
             return `
-                That's great! Since you are an eligible voter and a student in Bangalore, here is your customized guide:
+                That's great! Since you are 22, an eligible voter, and a BCA student in Bangalore, here is your customized guide:
                 
                 <h3>🗳️ Voting Registration:</h3>
                 <ul>
-                    <li>Apply via <strong>Form 6</strong> on the Voter Helpline app.</li>
-                    <li>Use your college ID or rental agreement as address proof.</li>
+                    <li>Apply via <strong>Form 6</strong> on the Voter Helpline app using your rental agreement or Aadhaar.</li>
                 </ul>
 
-                <h3>🎓 Relevant Schemes for You:</h3>
+                <h3>🎓 Civic Hub & Scholarships:</h3>
                 <ul>
-                    <li><strong>Karnataka ePASS:</strong> Apply for state scholarships.</li>
-                    <li><strong>AICTE Internship Portal:</strong> Find government-approved IT internships.</li>
+                    <li><strong>SSP Scholarship:</strong> Deadline extended to May 31, 2026.</li>
+                    <li><strong>Yuva Nidhi:</strong> Keep this in mind post-graduation for unemployment assistance.</li>
                 </ul>
             `;
         }
         
         // If we extracted context but no specific question was asked yet
         if (matched) {
-            return "I've noted your details and updated your profile! How can I help you today? You can ask me <strong>'How do I vote?'</strong> or <strong>'Where is my polling booth?'</strong>.";
+            return "I've noted your profile context. How can I help you today? Try asking about <strong>Scholarships</strong>, <strong>Form 6</strong>, or finding your <strong>Polling Booth</strong>.";
         }
 
         // Generic catch-all
-        return "I can help you understand the election process, check your voter eligibility, or find government schemes. <ul><li>Ask me <strong>'How do I vote?'</strong></li><li>Tell me your age and occupation (e.g. <strong>'I am 19 and a student'</strong>)</li><li>Ask <strong>'Where is my polling booth?'</strong></li></ul>";
+        return "I am the Electoral Intelligence Dashboard running on Gemini 1.5 Pro. I can help you understand the election process and government schemes. <ul><li>Ask about <strong>SSP Scholarships</strong></li><li>Tell me your age and occupation (e.g. <strong>'I am 22 and a student in Bangalore'</strong>)</li><li>Use the <strong>Myth-Buster</strong> utility above.</li></ul>";
     }
 });

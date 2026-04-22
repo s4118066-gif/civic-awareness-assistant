@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Civic AI Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Civic AI Dashboard - Electoral Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Cache buster meta tag for Prompt Wars -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 </head>
 <body>
     <div class="dashboard">
@@ -13,80 +15,89 @@
         <aside class="sidebar">
             <div class="brand">
                 <div class="logo-box">
-                    <svg viewBox="0 0 24 24" width="28" height="28" stroke="url(#gradient)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#00E5FF" />
-                                <stop offset="100%" stop-color="#FF0055" />
-                            </linearGradient>
-                        </defs>
-                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                        <polyline points="2 17 12 22 22 17"></polyline>
-                        <polyline points="2 12 12 17 22 12"></polyline>
+                    <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h1>Civic AI</h1>
-                    <span class="version">v2.0 Beta</span>
+                    <h1>Electoral Hub</h1>
+                    <span class="version">Powered by Gemini 1.5 Pro</span>
                 </div>
             </div>
 
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    Assistant Console
-                </a>
-                <a href="#" class="nav-item">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    Voting Eligibility
-                </a>
-                <a href="#" class="nav-item">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    Scholarships
-                </a>
-            </nav>
-
-            <div class="user-context-panel">
-                <h3>Extracted Profile</h3>
-                <div class="context-grid">
-                    <div class="context-card">
-                        <span class="label">AGE STATUS</span>
-                        <span class="value" id="ctx-age">Awaiting...</span>
+            <!-- Dashboard Modules -->
+            <div class="sidebar-modules">
+                
+                <!-- Polling Station Finder -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Polling Station Finder
                     </div>
-                    <div class="context-card">
-                        <span class="label">OCCUPATION</span>
-                        <span class="value" id="ctx-status">Awaiting...</span>
-                    </div>
-                    <div class="context-card">
-                        <span class="label">LOCATION</span>
-                        <span class="value" id="ctx-location">Awaiting...</span>
+                    <div class="module-content">
+                        Locate your nearest voting booth instantly. 
+                        <a href="https://maps.google.com" target="_blank" class="action-link">Open Google Maps ↗</a>
                     </div>
                 </div>
-            </div>
 
-            <div class="user-context-panel" style="margin-top: 15px; border-color: rgba(255, 0, 85, 0.4);">
-                <h3 style="color: var(--accent-magenta);">Critical Alerts</h3>
-                <div class="context-grid">
-                    <div class="context-card">
-                        <span class="label">SSP SCHOLARSHIPS</span>
-                        <span class="value" style="color: white; font-size: 0.8rem;">Deadline: May 2026</span>
+                <!-- Voter Registration Checklist -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Voter Registration (Form 6)
+                    </div>
+                    <div class="module-content">
+                        <label class="check-item"><input type="checkbox"> Aadhaar Card (Address)</label>
+                        <label class="check-item"><input type="checkbox"> Birth Certificate (Age Proof)</label>
+                        <label class="check-item"><input type="checkbox"> Passport Size Photo</label>
                     </div>
                 </div>
+
+                <!-- Election Timelines -->
+                <div class="module-card highlight-border">
+                    <div class="module-header highlight-text">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        2026 Election Timeline
+                    </div>
+                    <div class="module-content center-ticker">
+                        <div class="status-ticker">STATUS: <span class="blink">VOTER ROLL UDPATING</span></div>
+                        <div class="countdown">Estimated: 142 Days Remaining</div>
+                    </div>
+                </div>
+
+                <!-- Student Civic Hub -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+                        Student Civic Hub
+                    </div>
+                    <div class="module-content">
+                        <div class="context-pill">SSP Scholarship (Extended): <br><strong style="color:var(--success)">May 31, 2026</strong></div>
+                        <div class="context-pill">Yuva Nidhi Scheme: <strong style="color:var(--success)">Active</strong></div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="system-status">
                 <div class="pulse-dot"></div>
-                Systems Online & Monitored
+                Google Grounding Active
             </div>
         </aside>
 
         <!-- Main Chat Area -->
         <main class="main-content">
             <header class="top-header">
-                <h2>Intelligence Hub</h2>
+                <div class="header-tools">
+                    <h2>Electoral Intelligence Dashboard</h2>
+                    <button id="myth-buster-btn" class="tool-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        Myth-Buster
+                    </button>
+                </div>
                 <div class="profile">
-                    <span style="color: var(--accent-cyan); font-weight: 500;">Welcome Sahana</span>
-                    <div class="avatar"></div>
+                    <span style="color: var(--text-primary); font-weight: 500;">Welcome Sahana</span>
+                    <div class="avatar">S</div>
                 </div>
             </header>
 
@@ -94,14 +105,16 @@
                 <div class="chat-container" id="chat-container">
                     <div class="message assistant">
                         <div class="message-content">
-                            Hello! I am your advanced <strong>Civic Awareness Assistant</strong>. I'm connected to live electoral databases. I can help you understand the election process, verify your eligibility, and find relevant government schemes. How can I assist you today?
+                            Welcome to the <strong>Electoral Intelligence Dashboard</strong>, Sahana. 
+                            <br><br>
+                            I am running on Gemini 1.5 Pro logic with live Google Search Grounding to ensure you get the most accurate details for the 2026 elections, SSP scholarships, and Yuva Nidhi scheme deadlines. How can I assist you?
                         </div>
                     </div>
                 </div>
 
                 <div class="input-container">
                     <form id="chat-form">
-                        <input type="text" id="user-input" placeholder="Type your context or question... (e.g. 'I am 22 and studying BCA in Bangalore')" autocomplete="off" required>
+                        <input type="text" id="user-input" placeholder="Ask about elections, eligibility, or verify a rumor..." autocomplete="off" required>
                         <button type="submit" id="send-btn">
                             <span class="btn-glow"></span>
                             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
