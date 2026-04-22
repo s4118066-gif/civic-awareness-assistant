@@ -74,22 +74,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Basic intelligence simulation based on prompt requirements
     function generateResponse(text) {
+        let matched = false;
+        let responseParts = [];
+
         // Extract context if present
-        if (text.includes('16') || text.includes('17')) {
+        if (text.includes('16') || text.includes('17') || text.includes('under 18')) {
             userContext.age = "under_18";
             return "Since you are under 18, <strong>you are not yet eligible to vote</strong>. <br><br>However, you can prepare by:<br><ul><li>Learning about the democratic process</li><li>Volunteering in community programs</li><li>Applying for a Voter ID as soon as you turn 18</li></ul>";
         }
         
-        if (text.match(/18|19|20|2[1-9]/)) {
+        if (text.match(/18|19|20|2[0-9]|3[0-9]/) || text.includes('eligible')) {
             userContext.age = "eligible";
+            matched = true;
         }
 
-        if (text.includes('student') || text.includes('bca')) {
+        if (text.includes('student') || text.includes('bca') || text.includes('college')) {
             userContext.status = "student";
+            matched = true;
         }
 
-        if (text.includes('bangalore') || text.includes('bengaluru')) {
+        if (text.includes('bangalore') || text.includes('bengaluru') || text.includes('banglore')) {
             userContext.location = "bangalore";
+            matched = true;
         }
 
         // Handle specific questions based on past conversation or current input
@@ -105,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
 
-        if (text.includes('where') && text.includes('booth') || text.includes('location')) {
+        if ((text.includes('where') || text.includes('find')) && (text.includes('booth') || text.includes('location'))) {
             if (userContext.location) {
                 return `Since you are in <strong>${userContext.location.charAt(0).toUpperCase() + userContext.location.slice(1)}</strong>, you can find your exact polling station by visiting the Karnataka State Election Commission portal. <br><br>I recommend using map services like <strong>Google Maps</strong> to find the quickest route to your designated school or community center on election day.`;
             } else {
@@ -120,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Combined Context Response
         if (userContext.age === 'eligible' && userContext.status === 'student' && userContext.location === 'bangalore') {
             return `
-                That's great! Since you are an eligible voter and a BCA student in Bangalore, here is your customized guide:
+                That's great! Since you are an eligible voter and a student in Bangalore, here is your customized guide:
                 
                 <h3>🗳️ Voting Registration:</h3>
                 <ul>
@@ -134,6 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <li><strong>AICTE Internship Portal:</strong> Find government-approved IT internships.</li>
                 </ul>
             `;
+        }
+        
+        // If we extracted context but no specific question was asked yet
+        if (matched) {
+            return "I've noted your details! How can I help you today? You can ask me <strong>'How do I vote?'</strong> or <strong>'Where is my polling booth?'</strong>.";
         }
 
         // Generic catch-all
