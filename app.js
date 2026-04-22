@@ -72,18 +72,34 @@ document.addEventListener('DOMContentLoaded', () => {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
+    function updateDashboard() {
+        const ageEl = document.getElementById('ctx-age');
+        const statusEl = document.getElementById('ctx-status');
+        const locEl = document.getElementById('ctx-location');
+        
+        if (userContext.age) {
+            ageEl.textContent = userContext.age === 'under_18' ? 'Minor (Preparation)' : 'Eligible Voter';
+            ageEl.style.color = userContext.age === 'under_18' ? 'var(--accent-magenta)' : 'var(--accent-cyan)';
+        }
+        if (userContext.status) {
+            statusEl.textContent = userContext.status.charAt(0).toUpperCase() + userContext.status.slice(1);
+            statusEl.style.color = 'var(--accent-cyan)';
+        }
+        if (userContext.location) {
+            locEl.textContent = userContext.location.charAt(0).toUpperCase() + userContext.location.slice(1);
+            locEl.style.color = 'var(--accent-cyan)';
+        }
+    }
+
     // Basic intelligence simulation based on prompt requirements
     function generateResponse(text) {
         let matched = false;
-        let responseParts = [];
 
         // Extract context if present
         if (text.includes('16') || text.includes('17') || text.includes('under 18')) {
             userContext.age = "under_18";
-            return "Since you are under 18, <strong>you are not yet eligible to vote</strong>. <br><br>However, you can prepare by:<br><ul><li>Learning about the democratic process</li><li>Volunteering in community programs</li><li>Applying for a Voter ID as soon as you turn 18</li></ul>";
-        }
-        
-        if (text.match(/18|19|20|2[0-9]|3[0-9]/) || text.includes('eligible')) {
+            matched = true;
+        } else if (text.match(/18|19|20|2[0-9]|3[0-9]/) || text.includes('eligible')) {
             userContext.age = "eligible";
             matched = true;
         }
@@ -96,6 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (text.includes('bangalore') || text.includes('bengaluru') || text.includes('banglore')) {
             userContext.location = "bangalore";
             matched = true;
+        }
+        
+        // Update the visual dashboard panel
+        updateDashboard();
+
+        // Specific rules (early returns)
+        if (text.includes('16') || text.includes('17') || text.includes('under 18')) {
+            return "Since you are under 18, <strong>you are not yet eligible to vote</strong>. <br><br>However, you can prepare by:<br><ul><li>Learning about the democratic process</li><li>Volunteering in community programs</li><li>Applying for a Voter ID as soon as you turn 18</li></ul>";
         }
 
         // Handle specific questions based on past conversation or current input
@@ -144,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // If we extracted context but no specific question was asked yet
         if (matched) {
-            return "I've noted your details! How can I help you today? You can ask me <strong>'How do I vote?'</strong> or <strong>'Where is my polling booth?'</strong>.";
+            return "I've noted your details and updated your profile! How can I help you today? You can ask me <strong>'How do I vote?'</strong> or <strong>'Where is my polling booth?'</strong>.";
         }
 
         // Generic catch-all
