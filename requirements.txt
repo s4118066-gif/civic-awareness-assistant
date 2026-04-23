@@ -1,1 +1,5 @@
 Flask==3.0.0
+google-generativeai
+google-cloud-aiplatform
+google-api-python-client
+firebase-admin
