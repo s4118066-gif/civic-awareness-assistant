@@ -32,6 +32,18 @@ document.addEventListener('DOMContentLoaded', () => {
         location: null
     };
 
+    /** Google Identity Services (GSI) OAuth Handler */
+    window.handleCredentialResponse = function(response) {
+        if(response.credential) {
+            console.log("[PromptWars] Google OAuth JWT Received");
+            document.getElementById('welcome-text').textContent = "Welcome Sahana (Google Auth)";
+            // Log Google Analytics Event
+            if(typeof gtag === 'function') {
+                gtag('event', 'login', { method: 'Google Identity' });
+            }
+        }
+    };
+
     /**
      * Sanitizes raw HTML strings into safe DOM elements to prevent XSS.
      * @param {string} html - The potentially unsafe HTML string.

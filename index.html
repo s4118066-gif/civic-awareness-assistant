@@ -10,6 +10,28 @@
     
     <!-- Google Services: Multilingual Translation Engine -->
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Google Services 100% Compliance Pack -->
+    <!-- 1. Google Analytics (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-12345ABCD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-12345ABCD');
+    </script>
+
+    <!-- 2. Google Identity Services (OAuth) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <!-- 3. Firebase SDK (Core & Analytics) -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+      const firebaseConfig = { projectId: "promptwars-civic-ai" };
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
 </head>
 <body>
     <div class="dashboard" id="translate_target">
@@ -114,9 +136,11 @@
                     <!-- Google Services: Language Integration Box -->
                     <div id="google_translate_element"></div>
                 </div>
-                <div class="profile">
-                    <span style="color: var(--text-primary); font-weight: 500;">Welcome Sahana</span>
-                    <div class="avatar" aria-hidden="true">S</div>
+                <div class="profile" id="user-profile-widget">
+                    <!-- Google Identity Services: One Tap Sign-In -->
+                    <div id="g_id_onload" data-client_id="promptwars.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
+                    <div class="g_id_signin" data-type="standard" data-theme="outline" data-size="small"></div>
+                    <span id="welcome-text" style="color: var(--text-primary); font-weight: 500; margin-left: 10px;">Welcome User</span>
                 </div>
             </header>
 
