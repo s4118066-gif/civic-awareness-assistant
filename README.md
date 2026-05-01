@@ -77,7 +77,8 @@ docker build -t civic-ai-app .
 # Safely run the container and bind it to localhost
 docker run -p 8080:8080 civic-ai-app
 \`\`\`
-
+ live demo https://civic-awareness-assistant-1066397835614.us-central1.run.app
+ 
 <img width="1332" height="656" alt="Screenshot 2026-04-22 033932" src="https://github.com/user-attachments/assets/097ddf66-b059-44f4-92d5-833d3ddc7b1c" />
 
 <img width="1329" height="675" alt="Screenshot 2026-04-22 033035" src="https://github.com/user-attachments/assets/335aa15c-70ec-4cd0-aed8-fb6ec7258625" />
